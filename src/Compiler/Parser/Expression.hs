@@ -39,8 +39,10 @@ expressionTable =
   , [binary ">" OpGT E.AssocLeft]
   ]
   where
-    binary name op = E.Infix (mkBinOp op <$ astSymbol name)
+    binary name op = E.Infix (mkBinOp op <$ (reservedOpNf name >> getPosition))
     mkBinOp op a = BinaryOp a op
+    opChars = "*/+0<>"
+    reservedOpNf name = try (string name >> notFollowedBy (oneOf opChars) >> whitespace)
 
 expressionTerm :: Parser Expression
 expressionTerm = number <|> symbol <|> charLiteral <|> parens
