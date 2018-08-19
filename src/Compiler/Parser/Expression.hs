@@ -16,6 +16,9 @@ data Operator
   | OpSubtract
   | OpLT
   | OpGT
+  | OpOr
+  | OpXor
+  | OpAnd
   deriving (Eq, Show)
 
 data Expression
@@ -37,6 +40,9 @@ expressionTable =
   , [binary "-" OpSubtract E.AssocLeft]
   , [binary "<" OpLT E.AssocLeft]
   , [binary ">" OpGT E.AssocLeft]
+  , [binary "&" OpAnd E.AssocLeft]
+  , [binary "|" OpOr E.AssocLeft]
+  , [binary "^" OpXor E.AssocLeft]
   ]
   where
     binary name op = E.Infix (mkBinOp op <$ astSymbol name)
