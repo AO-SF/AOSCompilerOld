@@ -18,6 +18,8 @@ cabal-version:       >=1.10
 executable AOSCompiler
   main-is:             Main.hs
   other-modules:       Compiler.Parser
+                     , Compiler.Parser.Expression
+                     , Compiler.Parser.Common
   -- other-extensions:
   build-depends:        base >=4.11 && <4.12
                       , parsec > 3.1.13
