@@ -23,7 +23,7 @@ endOfStatement = char ';'
 
 statementList :: Parser StatementList
 statementList = do
-  statements <- many (expression <* endOfStatement)
+  statements <- many (lexeme $ expression <* endOfStatement)
   return $ StatementList statements
 
 codeModule :: Parser CodeModule
