@@ -1,9 +1,23 @@
 version: 2
 
 jobs:
-  test:
+  build:
+    working_directory: ~/AOSCompiler
+    # The primary container is an instance of the first image listed. The job's commands run in this container.
     docker:
       - image: fpco/stack-build:lts-12.6
     steps:
       - checkout
-      - run: stack test
+      - run:
+          name: Stack build
+          command: stack build
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.yaml" }}{{ checksum "stack.yaml" }}
+      - run:
+          name: Stack Test
+          command: stack test
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}{{ checksum "stack.yaml" }}
+          paths:
+            - .stack-work
+            - dist
