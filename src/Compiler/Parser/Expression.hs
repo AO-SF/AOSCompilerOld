@@ -49,7 +49,7 @@ expressionTable =
   where
     binary name op = E.Infix (mkBinOp op <$ (reservedOpNf name >> getPosition))
     mkBinOp op a = BinaryOp a op
-    opChars = "*/+0<>"
+    opChars = "*/+-<>!="
     reservedOpNf name = try (string name >> notFollowedBy (oneOf opChars) >> whitespace)
 
 expressionTerm :: Parser Expression
