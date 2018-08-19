@@ -14,8 +14,12 @@ data Operator
   | OpDivide
   | OpAdd
   | OpSubtract
+  | OpLE
   | OpLT
+  | OpGE
   | OpGT
+  | OpEq
+  | OpNEq
   deriving (Eq, Show)
 
 data Expression
@@ -34,8 +38,12 @@ expressionTable =
   , [binary "/" OpDivide E.AssocLeft]
   , [binary "+" OpAdd E.AssocLeft]
   , [binary "-" OpSubtract E.AssocLeft]
+  , [binary "<=" OpLE E.AssocLeft]
   , [binary "<" OpLT E.AssocLeft]
+  , [binary ">=" OpGE E.AssocLeft]
   , [binary ">" OpGT E.AssocLeft]
+  , [binary "==" OpEq E.AssocLeft]
+  , [binary "!=" OpNEq E.AssocLeft]
   ]
   where
     binary name op = E.Infix (mkBinOp op <$ astSymbol name)
