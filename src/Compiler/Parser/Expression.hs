@@ -20,6 +20,9 @@ data Operator
   | OpGT
   | OpEq
   | OpNEq
+  | OpAnd
+  | OpXor
+  | OpOr
   deriving (Eq, Show)
 
 data Expression
@@ -45,11 +48,14 @@ expressionTable =
   , [binary ">" OpGT E.AssocLeft]
   , [binary "==" OpEq E.AssocLeft]
   , [binary "!=" OpNEq E.AssocLeft]
+  , [binary "&" OpAnd E.AssocLeft]
+  , [binary "^" OpXor E.AssocLeft]
+  , [binary "|" OpOr E.AssocLeft]
   ]
   where
     binary name op = E.Infix (mkBinOp op <$ (reservedOpNf name >> getPosition))
     mkBinOp op a = BinaryOp a op
-    opChars = "*/+-<>!="
+    opChars = "*/+-<>!=&^|"
     reservedOpNf name = try (string name >> notFollowedBy (oneOf opChars) >> whitespace)
 
 expressionTerm :: Parser Expression
