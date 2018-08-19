@@ -21,6 +21,7 @@ data Operator
 data Expression
   = Number Integer
   | Symbol String
+  | CharLiteral Char
   | Add Expression
         Expression
   | Parens Expression
@@ -42,7 +43,7 @@ expressionTable =
     mkBinOp op a = BinaryOp a op
 
 expressionTerm :: Parser Expression
-expressionTerm = number <|> symbol <|> parens
+expressionTerm = number <|> symbol <|> charLiteral <|> parens
 
 number :: Parser Expression
 number = do
@@ -58,6 +59,16 @@ symbol =
   where
     firstChar = satisfy (\a -> isLetter a || a == '_')
     nonFirstChar = satisfy (\a -> isDigit a || isLetter a || a == '_')
+
+charLiteral :: Parser Expression
+charLiteral =
+  lexeme $ do
+    char '\''
+    c <- extractChar
+    char '\''
+    return $ CharLiteral c
+  where
+    extractChar = satisfy isPrint
 
 parens :: Parser Expression
 parens = between (astSymbol "(") (astSymbol ")") expression
