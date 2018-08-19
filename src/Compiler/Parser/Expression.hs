@@ -38,19 +38,11 @@ data Expression
   deriving (Eq, Show)
 
 expressionTable =
-  [ [binary "*" OpMultiply E.AssocLeft]
-  , [binary "/" OpDivide E.AssocLeft]
-  , [binary "+" OpAdd E.AssocLeft]
-  , [binary "-" OpSubtract E.AssocLeft]
-  , [binary "<=" OpLE E.AssocLeft]
-  , [binary "<" OpLT E.AssocLeft]
-  , [binary ">=" OpGE E.AssocLeft]
-  , [binary ">" OpGT E.AssocLeft]
-  , [binary "==" OpEq E.AssocLeft]
-  , [binary "!=" OpNEq E.AssocLeft]
-  , [binary "&" OpAnd E.AssocLeft]
-  , [binary "^" OpXor E.AssocLeft]
-  , [binary "|" OpOr E.AssocLeft]
+  [ [binary "*" OpMultiply E.AssocLeft, binary "/" OpDivide E.AssocLeft]
+  , [ binary "+" OpAdd E.AssocLeft, binary "-" OpSubtract E.AssocLeft ]
+  , [ binary "<=" OpLE E.AssocLeft, binary "<" OpLT E.AssocLeft, binary ">=" OpGE E.AssocLeft, binary ">" OpGT E.AssocLeft ]
+  , [ binary "==" OpEq E.AssocLeft, binary "!=" OpNEq E.AssocLeft ]
+  , [binary "&" OpAnd E.AssocLeft, binary "^" OpXor E.AssocLeft, binary "|" OpOr E.AssocLeft]
   ]
   where
     binary name op = E.Infix (mkBinOp op <$ (reservedOpNf name >> getPosition))
