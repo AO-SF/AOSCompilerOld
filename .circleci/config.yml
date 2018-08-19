@@ -1,0 +1,9 @@
+version: 2
+
+jobs:
+  test:
+    docker:
+      - image: fpco/stack-build:lts-12.6
+    steps:
+      - checkout
+      - run: stack test
